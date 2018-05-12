@@ -29,9 +29,13 @@ public class DownloadFileActivity extends AppCompatActivity {
     private ProgressBar pbFile1;
     private ProgressBar pbFile2;
     private ProgressBar pbFile3;
+    private TextView tvDisplayUrl1;
+    private TextView tvDisplayUrl2;
+    private TextView tvDisplayUrl3;
 
     private ResponseReceiverDoing responseReceiverDoing;
     private ResponseReceiverComplete responseReceiverComplete;
+    private ResponseReceiverUpdateProgress responseReceiverUpdateProgress;
 
     private FileDownload[] fileDownloads = {
             new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvWGxQNmxGRFBXSEU", "icon_android_java.jpg"),
@@ -59,6 +63,11 @@ public class DownloadFileActivity extends AppCompatActivity {
         filterComplete.addCategory(Intent.CATEGORY_DEFAULT);
         responseReceiverComplete = new ResponseReceiverComplete();
         registerReceiver(responseReceiverComplete, filterComplete);
+
+        IntentFilter filterUpdate = new IntentFilter(ResponseReceiverUpdateProgress.ACTION_RESP_UPDATE);
+        filterUpdate.addCategory(Intent.CATEGORY_DEFAULT);
+        responseReceiverUpdateProgress = new ResponseReceiverUpdateProgress();
+        registerReceiver(responseReceiverUpdateProgress, filterUpdate);
     }
 
     private void initViews() {
@@ -73,6 +82,10 @@ public class DownloadFileActivity extends AppCompatActivity {
         pbFile1 = findViewById(R.id.pb_progress_file_1);
         pbFile2 = findViewById(R.id.pb_progress_file_2);
         pbFile3 = findViewById(R.id.pb_progress_file_3);
+
+        tvDisplayUrl1 = findViewById(R.id.tv_display_url_1);
+        tvDisplayUrl2 = findViewById(R.id.tv_display_url_2);
+        tvDisplayUrl3 = findViewById(R.id.tv_display_url_3);
     }
 
     private void initData() {
@@ -116,16 +129,22 @@ public class DownloadFileActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             FileDownload curFile = (FileDownload)intent.getSerializableExtra(DownloadFileService.BTN_WAIT_TIME);
+            int fileLen = intent.getIntExtra(DownloadFileService.FILE_LEN, 0);
+
             switch (curFile.getFileName()){
                 case "icon_android_java.jpg":
+                    pbFile1.setMax(fileLen);
                     btnDownFile1.setBackgroundResource(R.drawable.download_btn_doing);
                     break;
 
                 case "application_life_cycle.pdf":
+                    pbFile2.setMax(fileLen);
+                    pbFile2.setProgress(4000);
                     btnDownFile2.setBackgroundResource(R.drawable.download_btn_doing);
                     break;
 
                 case "database_android.pdf":
+                    pbFile3.setMax(fileLen);
                     btnDownFile3.setBackgroundResource(R.drawable.download_btn_doing);
                     break;
             }
@@ -139,17 +158,21 @@ public class DownloadFileActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             FileDownload curFile = (FileDownload)intent.getSerializableExtra(DownloadFileService.BTN_COMPLETE_TIME);
+            String urlDownloaded = intent.getStringExtra(DownloadFileService.URL_DOWNLOADED);
             switch (curFile.getFileName()){
                 case "icon_android_java.jpg":
                     btnDownFile1.setBackgroundResource(R.drawable.download_btn_finish);
+                    tvDisplayUrl1.setText("Your file in: " + urlDownloaded);
                     break;
 
                 case "application_life_cycle.pdf":
                     btnDownFile2.setBackgroundResource(R.drawable.download_btn_finish);
+                    tvDisplayUrl2.setText("Your file in: " + urlDownloaded);
                     break;
 
                 case "database_android.pdf":
                     btnDownFile3.setBackgroundResource(R.drawable.download_btn_finish);
+                    tvDisplayUrl3.setText("Your file in: " + urlDownloaded);
                     break;
             }
 
@@ -161,18 +184,19 @@ public class DownloadFileActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            FileDownload curFile = (FileDownload)intent.getSerializableExtra(DownloadFileService.UPDATE_PROGRESS);
+            FileDownload curFile = (FileDownload)intent.getSerializableExtra(DownloadFileService.FILE_RES);
+            int numRead = intent.getIntExtra(DownloadFileService.UPDATE_PROGRESS, 0);
             switch (curFile.getFileName()){
                 case "icon_android_java.jpg":
-                    btnDownFile1.setBackgroundResource(R.drawable.download_btn_finish);
+                   pbFile1.setProgress(pbFile1.getProgress() + numRead);
                     break;
 
                 case "application_life_cycle.pdf":
-                    btnDownFile2.setBackgroundResource(R.drawable.download_btn_finish);
+                    pbFile2.setProgress(pbFile2.getProgress() + numRead);
                     break;
 
                 case "database_android.pdf":
-                    btnDownFile3.setBackgroundResource(R.drawable.download_btn_finish);
+                    pbFile3.setProgress(pbFile3.getProgress() + numRead);
                     break;
             }
 
