@@ -1,9 +1,10 @@
 package com.dungit.utility.demoweek2.demo_intent_service_asynctask;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.NetworkOnMainThreadException;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,18 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dungit.utility.demoweek2.R;
-
-import org.w3c.dom.Text;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Created by nahuy on 5/12/18.
@@ -41,30 +30,49 @@ public class DownloadFileActivity extends AppCompatActivity {
     private ProgressBar pbFile2;
     private ProgressBar pbFile3;
 
+    private ResponseReceiverDoing responseReceiverDoing;
+    private ResponseReceiverComplete responseReceiverComplete;
+
     private FileDownload[] fileDownloads = {
-            new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvOFdfQk9Lb0pwMWs", "head_first_java.pdf"),
-            new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvUzhnNVNTLVFkWEE", "pro_android.pdf"),
-            new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvZXZCUTFjaTAwTms", "learn_opengl.pdf") };
+            new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvWGxQNmxGRFBXSEU", "icon_android_java.jpg"),
+            new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvM0tmTlozQzh6N1k", "application_life_cycle.pdf"),
+            new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvRndfV3RNN1pvOVU", "database_android.pdf") };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_download_file);
 
+        initViews();
+        initData();
+        registerMyBroadcastReceiver();
+
+    }
+
+    private void registerMyBroadcastReceiver() {
+        IntentFilter filterDoing = new IntentFilter(ResponseReceiverDoing.ACTION_RESP_DOING);
+        filterDoing.addCategory(Intent.CATEGORY_DEFAULT);
+        responseReceiverDoing = new ResponseReceiverDoing();
+        registerReceiver(responseReceiverDoing, filterDoing);
+
+        IntentFilter filterComplete = new IntentFilter(ResponseReceiverComplete.ACTION_RESP_COMPLETE);
+        filterComplete.addCategory(Intent.CATEGORY_DEFAULT);
+        responseReceiverComplete = new ResponseReceiverComplete();
+        registerReceiver(responseReceiverComplete, filterComplete);
+    }
+
+    private void initViews() {
         btnDownFile1 = findViewById(R.id.btn_downfile_1);
-        btnDownFile1 = findViewById(R.id.btn_downfile_2);
-        btnDownFile1 = findViewById(R.id.btn_downfile_3);
+        btnDownFile2 = findViewById(R.id.btn_downfile_2);
+        btnDownFile3 = findViewById(R.id.btn_downfile_3);
 
         url1 = findViewById(R.id.tv_file_name_1);
-        url1 = findViewById(R.id.tv_file_name_2);
-        url1 = findViewById(R.id.tv_file_name_3);
+        url2 = findViewById(R.id.tv_file_name_2);
+        url3 = findViewById(R.id.tv_file_name_3);
 
         pbFile1 = findViewById(R.id.pb_progress_file_1);
-        pbFile1 = findViewById(R.id.pb_progress_file_2);
-        pbFile1 = findViewById(R.id.pb_progress_file_3);
-
-        initData();
-
+        pbFile2 = findViewById(R.id.pb_progress_file_2);
+        pbFile3 = findViewById(R.id.pb_progress_file_3);
     }
 
     private void initData() {
@@ -75,6 +83,7 @@ public class DownloadFileActivity extends AppCompatActivity {
         btnDownFile1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnDownFile1.setBackgroundResource(R.drawable.download_btn_idle);
                 Intent intent = new Intent(DownloadFileActivity.this, DownloadFileService.class);
                 intent.putExtra(DownloadFileService.FILE, fileDownloads[0]);
                 startService(intent);
@@ -83,19 +92,90 @@ public class DownloadFileActivity extends AppCompatActivity {
         btnDownFile2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnDownFile2.setBackgroundResource(R.drawable.download_btn_idle);
                 Intent intent = new Intent(DownloadFileActivity.this, DownloadFileService.class);
                 intent.putExtra(DownloadFileService.FILE, fileDownloads[1]);
                 startService(intent);
             }
         });
-        btnDownFile2.setOnClickListener(new View.OnClickListener() {
+        btnDownFile3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnDownFile3.setBackgroundResource(R.drawable.download_btn_idle);
                 Intent intent = new Intent(DownloadFileActivity.this, DownloadFileService.class);
                 intent.putExtra(DownloadFileService.FILE, fileDownloads[2]);
                 startService(intent);
             }
         });
 
+    }
+
+    public class ResponseReceiverDoing extends BroadcastReceiver {
+        public static final String ACTION_RESP_DOING = "action_resp_doing";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            FileDownload curFile = (FileDownload)intent.getSerializableExtra(DownloadFileService.BTN_WAIT_TIME);
+            switch (curFile.getFileName()){
+                case "icon_android_java.jpg":
+                    btnDownFile1.setBackgroundResource(R.drawable.download_btn_doing);
+                    break;
+
+                case "application_life_cycle.pdf":
+                    btnDownFile2.setBackgroundResource(R.drawable.download_btn_doing);
+                    break;
+
+                case "database_android.pdf":
+                    btnDownFile3.setBackgroundResource(R.drawable.download_btn_doing);
+                    break;
+            }
+
+        }
+    }
+
+    public class ResponseReceiverComplete extends BroadcastReceiver {
+        public static final String ACTION_RESP_COMPLETE = "action_resp_complete";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            FileDownload curFile = (FileDownload)intent.getSerializableExtra(DownloadFileService.BTN_COMPLETE_TIME);
+            switch (curFile.getFileName()){
+                case "icon_android_java.jpg":
+                    btnDownFile1.setBackgroundResource(R.drawable.download_btn_finish);
+                    break;
+
+                case "application_life_cycle.pdf":
+                    btnDownFile2.setBackgroundResource(R.drawable.download_btn_finish);
+                    break;
+
+                case "database_android.pdf":
+                    btnDownFile3.setBackgroundResource(R.drawable.download_btn_finish);
+                    break;
+            }
+
+        }
+    }
+
+    public class ResponseReceiverUpdateProgress extends BroadcastReceiver {
+        public static final String ACTION_RESP_UPDATE = "action_resp_update";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            FileDownload curFile = (FileDownload)intent.getSerializableExtra(DownloadFileService.UPDATE_PROGRESS);
+            switch (curFile.getFileName()){
+                case "icon_android_java.jpg":
+                    btnDownFile1.setBackgroundResource(R.drawable.download_btn_finish);
+                    break;
+
+                case "application_life_cycle.pdf":
+                    btnDownFile2.setBackgroundResource(R.drawable.download_btn_finish);
+                    break;
+
+                case "database_android.pdf":
+                    btnDownFile3.setBackgroundResource(R.drawable.download_btn_finish);
+                    break;
+            }
+
+        }
     }
 }

@@ -2,7 +2,6 @@ package com.dungit.utility.demoweek2.demo_intent_service_asynctask;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 
@@ -24,21 +23,27 @@ import java.net.URLConnection;
 public class DownloadFileService extends IntentService {
 
     public static final String FILE = "file";
+    public static final String BTN_WAIT_TIME = "btn_wait_time";
+    public static final String BTN_COMPLETE_TIME = "btn_complete_time";
+    public static final String UPDATE_PROGRESS = "update_progress";
 
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
-    public DownloadFileService(String name) {
-        super(name);
+
+    public DownloadFileService() {
+        super("DownloadFileService");
     }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-
         if (intent != null) {
             FileDownload myFile = (FileDownload) intent.getSerializableExtra(FILE);
+
+            // Doing
+            Intent broadcastIntentDoing = new Intent();
+            broadcastIntentDoing.setAction(DownloadFileActivity.ResponseReceiverDoing.ACTION_RESP_DOING);
+            broadcastIntentDoing.addCategory(Intent.CATEGORY_DEFAULT);
+            broadcastIntentDoing.putExtra(BTN_WAIT_TIME, myFile);
+            sendBroadcast(broadcastIntentDoing);
+
             URLConnection connection = null;
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -79,6 +84,14 @@ public class DownloadFileService extends IntentService {
                     }
                 }
             }
+
+            // Complete
+            Intent broadcastIntentFinish = new Intent();
+            broadcastIntentFinish.setAction(DownloadFileActivity.ResponseReceiverComplete.ACTION_RESP_COMPLETE);
+            broadcastIntentFinish.addCategory(Intent.CATEGORY_DEFAULT);
+            broadcastIntentFinish.putExtra(BTN_COMPLETE_TIME, myFile);
+            sendBroadcast(broadcastIntentFinish);
+
         }
     }
 
