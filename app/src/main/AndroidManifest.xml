@@ -23,10 +23,11 @@
 
         <activity android:name=".demo_view_stub.ShowImgActivity" />
         <activity android:name=".demo_coodinator.CoodinatorActivity" />
-        <activity android:name=".demo_intent_service_asynctask.DownloadFileActivity" />
+        <activity android:name=".demo_intent_service.DownloadFileActivity" />
+        <activity android:name=".demo_asyntask.RemoveDuplicateActivity"/>
 
         <service
-            android:name=".demo_intent_service_asynctask.DownloadFileService"
+            android:name=".demo_intent_service.DownloadFileService"
             android:exported="false" />
     </application>
 

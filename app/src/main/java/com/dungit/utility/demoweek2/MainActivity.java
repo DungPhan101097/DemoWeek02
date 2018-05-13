@@ -12,9 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.dungit.utility.demoweek2.demo_asyntask.RemoveDuplicateActivity;
 import com.dungit.utility.demoweek2.demo_coodinator.CoodinatorActivity;
-import com.dungit.utility.demoweek2.demo_intent_service_asynctask.DownloadFileActivity;
+import com.dungit.utility.demoweek2.demo_intent_service.DownloadFileActivity;
 import com.dungit.utility.demoweek2.demo_view_stub.ShowImgActivity;
+
+import java.io.BufferedReader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnStartCoodinatorAct;
     private Button btnStartShowAlbumAct;
     private Button btnDownloadFileAct;
+    private Button btnStartAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         btnStartViewStubAct = findViewById(R.id.btn_start_view_stub_act);
         btnStartShowAlbumAct = findViewById(R.id.btn_start_fragment_act);
         btnDownloadFileAct = findViewById(R.id.btn_download_file);
+        btnStartAsyncTask = findViewById(R.id.btn_async_task);
 
         btnStartViewStubAct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, DownloadFileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnStartAsyncTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, RemoveDuplicateActivity.class);
                 startActivity(intent);
             }
         });
