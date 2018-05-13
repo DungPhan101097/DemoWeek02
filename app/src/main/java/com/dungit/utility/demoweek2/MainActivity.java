@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.dungit.utility.demoweek2.demo_asyntask.RemoveDuplicateActivity;
 import com.dungit.utility.demoweek2.demo_coodinator.CoodinatorActivity;
+import com.dungit.utility.demoweek2.demo_firebase_cloud_messaging.MyFCMActivity;
 import com.dungit.utility.demoweek2.demo_intent_service.DownloadFileActivity;
 import com.dungit.utility.demoweek2.demo_view_stub.ShowImgActivity;
 
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnStartShowAlbumAct;
     private Button btnDownloadFileAct;
     private Button btnStartAsyncTask;
+    private Button btnStartFCMNotiAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         btnStartShowAlbumAct = findViewById(R.id.btn_start_fragment_act);
         btnDownloadFileAct = findViewById(R.id.btn_download_file);
         btnStartAsyncTask = findViewById(R.id.btn_async_task);
+        btnStartFCMNotiAct = findViewById(R.id.btn_fcm_notification);
 
         btnStartViewStubAct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,5 +108,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnStartFCMNotiAct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MyFCMActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

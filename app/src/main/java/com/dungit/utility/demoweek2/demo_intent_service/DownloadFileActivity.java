@@ -39,7 +39,7 @@ public class DownloadFileActivity extends AppCompatActivity {
 
     private FileDownload[] fileDownloads = {
             new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvWGxQNmxGRFBXSEU", "icon_android_java.jpg"),
-            new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvM0tmTlozQzh6N1k", "application_life_cycle.pdf"),
+            new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvRndfV3RNN1pvOVU", "application_life_cycle.pdf"),
             new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvRndfV3RNN1pvOVU", "database_android.pdf") };
 
     @Override

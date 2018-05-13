@@ -58,14 +58,7 @@ public class DownloadFileService extends IntentService {
             try {
                 connection = new URL(myFile.getUrl()).openConnection();
 
-                List values = connection.getHeaderFields().get("content-Length");
-                int fileLen = 0;
-                if (values != null && !values.isEmpty()) {
-                    String sLength = (String) values.get(0);
-                    if (sLength != null) {
-                        fileLen = Integer.parseInt(sLength);
-                    }
-                }
+                int fileLen = connection.getContentLength();
                 broadcastIntentDoing.putExtra(FILE_LEN, fileLen);
                 sendBroadcast(broadcastIntentDoing);
 

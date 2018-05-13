@@ -36,5 +36,10 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Start AsyncTask Activity"/>
+    <Button
+        android:id="@+id/btn_fcm_notification"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Start FCM notification Activity"/>
 
 </LinearLayout>
