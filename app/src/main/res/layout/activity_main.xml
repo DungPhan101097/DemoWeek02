@@ -42,4 +42,10 @@
         android:layout_height="wrap_content"
         android:text="Start FCM notification Activity"/>
 
+    <Button
+        android:id="@+id/btn_thread_executor"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Start Thread executor Activity"/>
+
 </LinearLayout>

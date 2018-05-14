@@ -16,19 +16,18 @@ import com.dungit.utility.demoweek2.demo_asyntask.RemoveDuplicateActivity;
 import com.dungit.utility.demoweek2.demo_coodinator.CoodinatorActivity;
 import com.dungit.utility.demoweek2.demo_firebase_cloud_messaging.MyFCMActivity;
 import com.dungit.utility.demoweek2.demo_intent_service.DownloadFileActivity;
+import com.dungit.utility.demoweek2.demo_thread_executor.DownloadFileThreadPoolActivity;
 import com.dungit.utility.demoweek2.demo_view_stub.ShowImgActivity;
-
-import java.io.BufferedReader;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1;
     private Button btnStartViewStubAct;
     private Button btnStartCoodinatorAct;
-    private Button btnStartShowAlbumAct;
     private Button btnDownloadFileAct;
     private Button btnStartAsyncTask;
     private Button btnStartFCMNotiAct;
+    private Button btnStartThreadPoolAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
     public void initViews(){
         btnStartCoodinatorAct = findViewById(R.id.btn_start_coodinator_act);
         btnStartViewStubAct = findViewById(R.id.btn_start_view_stub_act);
-        btnStartShowAlbumAct = findViewById(R.id.btn_start_fragment_act);
         btnDownloadFileAct = findViewById(R.id.btn_download_file);
         btnStartAsyncTask = findViewById(R.id.btn_async_task);
         btnStartFCMNotiAct = findViewById(R.id.btn_fcm_notification);
+        btnStartThreadPoolAct = findViewById(R.id.btn_thread_executor);
 
         btnStartViewStubAct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +112,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MyFCMActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnStartThreadPoolAct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DownloadFileThreadPoolActivity.class);
                 startActivity(intent);
             }
         });
