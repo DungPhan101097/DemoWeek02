@@ -33,14 +33,14 @@ import java.util.HashMap;
 
 public class DownloadFileConsumerActivity extends AppCompatActivity {
 
-    public  static final int THREAD_1 = 1;
-    public  static final int THREAD_2 = 2;
-    public  static final int THREAD_3 = 3;
-    private static final int DOING = 4;
+    public static final int THREAD_1 = 1;
+    public static final int THREAD_2 = 2;
+    public static final int THREAD_3 = 3;
     private static final int FINISH = 5;
     private static final int START_DOING = 6;
     private static final int UPDATE_MAX_PROGRESS = 7;
     private static final int UPDATE_PROGRESS = 8;
+    private static final String FILE_PATH = "file_path";
 
     private Button btnDownFile1;
     private Button btnDownFile2;
@@ -58,7 +58,7 @@ public class DownloadFileConsumerActivity extends AppCompatActivity {
     private FileDownload[] fileDownloads = {
             new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvWGxQNmxGRFBXSEU", "icon_android_java.jpg"),
             new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvRndfV3RNN1pvOVU", "application_life_cycle.pdf"),
-            new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvRndfV3RNN1pvOVU", "database_android.pdf") };
+            new FileDownload("https://drive.google.com/uc?export=download&id=0B1rVEnAlVmVvRndfV3RNN1pvOVU", "database_android.pdf")};
 
     private BackgroundThread bgThreadFile1, bgThreadFile2, bgThreadFile3;
 
@@ -90,10 +90,12 @@ public class DownloadFileConsumerActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        TextView tvIntro = findViewById(R.id.tv_intro_activity);
+        tvIntro.setText(R.string.intro_thread_handler);
+
         url1.setText(fileDownloads[0].getFileName());
         url2.setText(fileDownloads[1].getFileName());
         url3.setText(fileDownloads[2].getFileName());
-
 
 
         btnDownFile1.setOnClickListener(new View.OnClickListener() {
@@ -129,16 +131,10 @@ public class DownloadFileConsumerActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //exitBgThreadDownloadFile();
-    }
 
-
-    private final Handler uiHandlerFile = new Handler(){
-        private Button getButtonById(int idThread){
-            switch (idThread){
+    private final Handler uiHandlerFile = new Handler() {
+        private Button getButtonById(int idThread) {
+            switch (idThread) {
                 case THREAD_1:
                     return btnDownFile1;
 
@@ -151,8 +147,8 @@ public class DownloadFileConsumerActivity extends AppCompatActivity {
             return null;
         }
 
-        private ProgressBar getProgressBarById(int idThread){
-            switch (idThread){
+        private ProgressBar getProgressBarById(int idThread) {
+            switch (idThread) {
                 case THREAD_1:
                     return pbFile1;
 
@@ -165,8 +161,8 @@ public class DownloadFileConsumerActivity extends AppCompatActivity {
             return null;
         }
 
-        private TextView getTextViewById(int idThread){
-            switch (idThread){
+        private TextView getTextViewById(int idThread) {
+            switch (idThread) {
                 case THREAD_1:
                     return tvDisplayUrl1;
 
@@ -183,37 +179,36 @@ public class DownloadFileConsumerActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            switch (msg.what){
+            switch (msg.what) {
                 case START_DOING:
-                   getButtonById(msg.arg1).setBackgroundResource(R.drawable.download_btn_doing);
+                    getButtonById(msg.arg1).setBackgroundResource(R.drawable.download_btn_doing);
                     break;
 
                 case UPDATE_MAX_PROGRESS:
                     getProgressBarById(msg.arg1).setMax(msg.arg2);
-
                     break;
-
 
                 case UPDATE_PROGRESS:
                     getProgressBarById(msg.arg1).setProgress(
                             getProgressBarById(msg.arg1).getProgress() + msg.arg2);
-
                     break;
 
                 case FINISH:
                     getButtonById(msg.arg1).setBackgroundResource(R.drawable.download_btn_finish);
-                    getTextViewById(msg.arg1).setText("Your file in: " + "aaaa");
+                    getTextViewById(msg.arg1).setText("Your file in: " +
+                            msg.getData().getString(FILE_PATH));
                     break;
             }
         }
     };
 
 
-    class BackgroundThread extends Thread{
+    class BackgroundThread extends Thread {
         private FileDownload downloadFile;
         private int idThread;
+        private File myDownloadFile;
 
-        BackgroundThread (FileDownload downloadFile, int idThread) {
+        BackgroundThread(FileDownload downloadFile, int idThread) {
             this.downloadFile = downloadFile;
             this.idThread = idThread;
         }
@@ -228,6 +223,9 @@ public class DownloadFileConsumerActivity extends AppCompatActivity {
 
             msg = uiHandlerFile.obtainMessage(FINISH);
             msg.arg1 = idThread;
+            Bundle bundle = new Bundle();
+            bundle.putString(FILE_PATH, myDownloadFile.getAbsolutePath());
+            msg.setData(bundle);
             uiHandlerFile.sendMessage(msg);
 
         }
@@ -240,7 +238,7 @@ public class DownloadFileConsumerActivity extends AppCompatActivity {
             OutputStream outputStream = null;
 
             byte[] buffer = new byte[1024];
-            File myDownloadFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+            myDownloadFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                     myFile.getFileName());
             try {
                 connection = new URL(myFile.getUrl()).openConnection();
@@ -250,9 +248,6 @@ public class DownloadFileConsumerActivity extends AppCompatActivity {
                 msg.arg1 = idThread;
                 msg.arg2 = fileLen;
                 uiHandlerFile.sendMessage(msg);
-
-                Log.e("thread 1", "fileLen: " + fileLen);
-
 
                 outputStream = new BufferedOutputStream(new FileOutputStream(myDownloadFile));
                 inputStream = connection.getInputStream();

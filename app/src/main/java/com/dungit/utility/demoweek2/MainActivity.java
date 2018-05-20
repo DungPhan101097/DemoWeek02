@@ -23,13 +23,6 @@ import com.dungit.utility.demoweek2.demo_view_stub.ShowImgActivity;
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1;
-    private Button btnStartViewStubAct;
-    private Button btnStartCoodinatorAct;
-    private Button btnDownloadFileAct;
-    private Button btnStartAsyncTask;
-    private Button btnStartFCMNotiAct;
-    private Button btnStartThreadPoolAct;
-    private Button btnStartThreadHandlerAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +64,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initViews(){
-        btnStartCoodinatorAct = findViewById(R.id.btn_start_coodinator_act);
-        btnStartViewStubAct = findViewById(R.id.btn_start_view_stub_act);
-        btnDownloadFileAct = findViewById(R.id.btn_download_file);
-        btnStartAsyncTask = findViewById(R.id.btn_async_task);
-        btnStartFCMNotiAct = findViewById(R.id.btn_fcm_notification);
-        btnStartThreadPoolAct = findViewById(R.id.btn_thread_executor);
-        btnStartThreadHandlerAct = findViewById(R.id.btn_thread_handler);
+        Button btnStartCoodinatorAct = findViewById(R.id.btn_start_coodinator_act);
+        Button btnStartViewStubAct = findViewById(R.id.btn_start_view_stub_act);
+        Button btnDownloadFileAct = findViewById(R.id.btn_download_file);
+        Button btnStartAsyncTask = findViewById(R.id.btn_async_task);
+        Button btnStartFCMNotiAct = findViewById(R.id.btn_fcm_notification);
+        Button btnStartThreadPoolAct = findViewById(R.id.btn_thread_executor);
+        Button btnStartThreadHandlerAct = findViewById(R.id.btn_thread_handler);
 
         btnStartViewStubAct.setOnClickListener(new View.OnClickListener() {
             @Override

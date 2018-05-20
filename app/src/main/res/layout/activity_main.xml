@@ -11,47 +11,48 @@
         android:id="@+id/btn_start_view_stub_act"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Start View Stub Activity"/>
+        android:text="Start View Stub Activity"
+        android:layout_gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/btn_start_coodinator_act"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Start Coodinator Activity"/>
-    <Button
-        android:id="@+id/btn_start_fragment_act"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Start Show Album Activity"/>
-
+        android:text="Start Coodinator Activity"
+        android:layout_gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/btn_download_file"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Start Download File Activity"/>
+        android:text="Download files with Intent service"
+        android:layout_gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/btn_async_task"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Start AsyncTask Activity"/>
+        android:text="Process file with Async Task"
+        android:layout_gravity="center_horizontal"/>
     <Button
         android:id="@+id/btn_fcm_notification"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Start FCM notification Activity"/>
+        android:text="Start FCM notification Activity"
+        android:layout_gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/btn_thread_executor"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Start Thread pool executor Activity"/>
+        android:text="Download files with Thread Pool Executor"
+        android:layout_gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/btn_thread_handler"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Start Thread handler Activity"/>
+        android:text="Download file with Thread Handler"
+        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

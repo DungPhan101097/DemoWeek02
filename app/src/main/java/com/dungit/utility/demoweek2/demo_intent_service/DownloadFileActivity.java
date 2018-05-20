@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.dungit.utility.demoweek2.R;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by nahuy on 5/12/18.
  */
@@ -97,6 +99,9 @@ public class DownloadFileActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        TextView tvIntro = findViewById(R.id.tv_intro_activity);
+        tvIntro.setText(R.string.intro_intent_activity);
+
         url1.setText(fileDownloads[0].getFileName());
         url2.setText(fileDownloads[1].getFileName());
         url3.setText(fileDownloads[2].getFileName());
