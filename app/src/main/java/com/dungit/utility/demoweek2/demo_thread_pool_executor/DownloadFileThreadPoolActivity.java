@@ -1,6 +1,5 @@
-package com.dungit.utility.demoweek2.demo_thread_executor;
+package com.dungit.utility.demoweek2.demo_thread_pool_executor;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -76,7 +75,7 @@ public class DownloadFileThreadPoolActivity extends AppCompatActivity {
                 btnDownFile1.setBackgroundResource(R.drawable.download_btn_idle);
                 DownloadTask downloadTask = new DownloadTask(fileDownloads[0],
                         new DownloadDoingUpdateTask(btnDownFile1),
-                        new DownloadProgressUpdateTask(pbFile1),
+                        new DownloadProgressUpdateTask(pbFile1).setId(1),
                         new DownloadResultUpdateTask(btnDownFile1, tvDisplayUrl1));
                 DownloadManager.getDownloadManager().runDownloadFile(downloadTask);
 
@@ -88,7 +87,7 @@ public class DownloadFileThreadPoolActivity extends AppCompatActivity {
                 btnDownFile2.setBackgroundResource(R.drawable.download_btn_idle);
                 DownloadTask downloadTask = new DownloadTask(fileDownloads[1],
                         new DownloadDoingUpdateTask(btnDownFile2),
-                        new DownloadProgressUpdateTask(pbFile2),
+                        new DownloadProgressUpdateTask(pbFile2).setId(2),
                         new DownloadResultUpdateTask(btnDownFile2, tvDisplayUrl2));
                 DownloadManager.getDownloadManager().runDownloadFile(downloadTask);
 
@@ -100,7 +99,7 @@ public class DownloadFileThreadPoolActivity extends AppCompatActivity {
                 btnDownFile3.setBackgroundResource(R.drawable.download_btn_idle);
                 DownloadTask downloadTask = new DownloadTask(fileDownloads[2],
                         new DownloadDoingUpdateTask(btnDownFile3),
-                        new DownloadProgressUpdateTask(pbFile3),
+                        new DownloadProgressUpdateTask(pbFile3).setId(3),
                         new DownloadResultUpdateTask(btnDownFile3, tvDisplayUrl3));
                 DownloadManager.getDownloadManager().runDownloadFile(downloadTask);
 

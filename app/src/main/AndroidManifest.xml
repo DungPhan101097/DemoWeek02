@@ -26,7 +26,8 @@
         <activity android:name=".demo_intent_service.DownloadFileActivity" />
         <activity android:name=".demo_asyntask.RemoveDuplicateActivity"/>
         <activity android:name=".demo_firebase_cloud_messaging.MyFCMActivity"/>
-        <activity android:name=".demo_thread_executor.DownloadFileThreadPoolActivity"/>
+        <activity android:name=".demo_thread_pool_executor.DownloadFileThreadPoolActivity"/>
+        <activity android:name=".demo_thread_handler.DownloadFileConsumerActivity"/>
 
         <service
             android:name=".demo_intent_service.DownloadFileService"

@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -68,6 +69,8 @@ public class DownloadFileService extends IntentService {
                 int numRead = -1;
                 while ((numRead = inputStream.read(buffer)) != -1) {
                     outputStream.write(buffer, 0, numRead);
+
+                    Log.e("Numread", numRead +"");
 
                     // Update progress
                     Intent brUpdateProgress = new Intent();

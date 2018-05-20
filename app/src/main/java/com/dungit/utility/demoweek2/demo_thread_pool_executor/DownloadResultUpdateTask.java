@@ -1,11 +1,9 @@
-package com.dungit.utility.demoweek2.demo_thread_executor;
+package com.dungit.utility.demoweek2.demo_thread_pool_executor;
 
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.dungit.utility.demoweek2.R;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by DUNGIT on 5/14/2018.

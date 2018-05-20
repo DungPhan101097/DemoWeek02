@@ -1,9 +1,10 @@
-package com.dungit.utility.demoweek2.demo_thread_executor;
+package com.dungit.utility.demoweek2.demo_thread_pool_executor;
 
 /**
  * Created by DUNGIT on 5/14/2018.
  */
 import android.os.Environment;
+import android.util.Log;
 
 import com.dungit.utility.demoweek2.demo_intent_service.*;
 
@@ -67,6 +68,8 @@ public class DownloadTask implements Runnable{
             connection = new URL(myFile.getUrl()).openConnection();
             int fileLen = connection.getContentLength();
 
+            progressUpdateTask.setTotalLength(fileLen);
+
             outputStream = new BufferedOutputStream(new FileOutputStream(myDownloadFile));
             inputStream = connection.getInputStream();
 
@@ -74,8 +77,8 @@ public class DownloadTask implements Runnable{
             while ((numRead = inputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, numRead);
 
+                Log.e("TruocGui", "pb " + progressUpdateTask.id + " |" + numRead+"");
                 progressUpdateTask.setProgress(numRead);
-                progressUpdateTask.setTotalLength(fileLen);
                 DownloadManager.getDownloadManager().getMainThreadExecutor()
                         .execute(progressUpdateTask);
             }

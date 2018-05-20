@@ -16,7 +16,8 @@ import com.dungit.utility.demoweek2.demo_asyntask.RemoveDuplicateActivity;
 import com.dungit.utility.demoweek2.demo_coodinator.CoodinatorActivity;
 import com.dungit.utility.demoweek2.demo_firebase_cloud_messaging.MyFCMActivity;
 import com.dungit.utility.demoweek2.demo_intent_service.DownloadFileActivity;
-import com.dungit.utility.demoweek2.demo_thread_executor.DownloadFileThreadPoolActivity;
+import com.dungit.utility.demoweek2.demo_thread_handler.DownloadFileConsumerActivity;
+import com.dungit.utility.demoweek2.demo_thread_pool_executor.DownloadFileThreadPoolActivity;
 import com.dungit.utility.demoweek2.demo_view_stub.ShowImgActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnStartAsyncTask;
     private Button btnStartFCMNotiAct;
     private Button btnStartThreadPoolAct;
+    private Button btnStartThreadHandlerAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         btnStartAsyncTask = findViewById(R.id.btn_async_task);
         btnStartFCMNotiAct = findViewById(R.id.btn_fcm_notification);
         btnStartThreadPoolAct = findViewById(R.id.btn_thread_executor);
+        btnStartThreadHandlerAct = findViewById(R.id.btn_thread_handler);
 
         btnStartViewStubAct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +123,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DownloadFileThreadPoolActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnStartThreadHandlerAct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DownloadFileConsumerActivity.class);
                 startActivity(intent);
             }
         });
